@@ -7,14 +7,15 @@ using namespace std;
 int main()
 {
   int num_days[12]{31,28,31,30,31,30,31,31,30,31,30,31};
-  int month = 1;
-  vector<vector<string>> diary;
+  int month = 0;
+  vector<vector<string>> diary(12);
   int q;
   cin >> q;
   for (int j=0; j < q; j++)
   {
     int i;
     string comd, work;
+    
     cin >> comd;
     if (comd == "DUMP")
     { 
@@ -32,13 +33,16 @@ int main()
       cin >> i >> work;
       diary[i-1].push_back(work);
     }
-    else 
+    else if (comd == "NEXT")
     {
-      int next_month = (month + 1) / 12;
+      int next_month = (month + 1) % 12;
       int ndn = num_days[next_month];
+  
       if (ndn < num_days[month])
       {
-        for (j = ndn - 1; j < num_days[month]; j++)
+
+
+        for (int j = ndn; j < num_days[month]; j++)
         {
           diary[ndn - 1].insert(end(diary[ndn - 1]), begin(diary[j]), end(diary[j]));
           diary[j].clear();
@@ -46,9 +50,9 @@ int main()
       }
       else
       {
-        diary.resize(num_days[month] - ndn);
+        diary.resize(ndn);
       }
     }
-  }   
+  }
   return 0;
 }
